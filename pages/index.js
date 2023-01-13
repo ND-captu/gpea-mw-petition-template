@@ -248,9 +248,10 @@ export async function getStaticProps(context) {
 	const endpoint = 'https://strapi.small-service.gpeastasia.org/api';
 
 	const res = await fetch(
-		`${endpoint}/pages?filters[market][slug]=${envProjectMarket}&filters[campaign]=${app}&populate=deep`
+		`${endpoint}/pages?filters[market][slug]=${envProjectMarket}&filters[campaign]=${app}&populate=*`
 	).then((response) => response);
 	const themes = await res.json();
+	
 	const theme =
 		themes?.data[0] !== undefined ? themes?.data[0]?.attributes : null;
 

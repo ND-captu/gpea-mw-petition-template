@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import dynamic from 'next/dynamic';
 import * as formActions from 'store/actions/action-types/form-actions';
 // Import library
 import { useInView } from 'react-intersection-observer';
@@ -12,10 +13,14 @@ import FormContainer from '@containers/formContainer';
 import PetitionFooter from '@containers/petitionFooter';
 // Import custom components
 import HeroBanner from '@components/ResponsiveBanner/hero';
-import ThanksBanner from '@components/ResponsiveBanner/thanks';
-import DonationModule from '@components/GP/DonationModule';
-import SignupForm from '@components/GP/TWForm';
-import DonateFAQ from '@components/DonateFAQ';
+// import ThanksBanner from '@components/ResponsiveBanner/thanks';
+// import DonationModule from '@components/GP/DonationModule';
+// import SignupForm from '@components/GP/TWForm';
+// import DonateFAQ from '@components/DonateFAQ';
+const ThanksBanner = dynamic( import('@components/ResponsiveBanner/thanks'));
+const SignupForm = dynamic( import('@components/GP/TWForm'));
+const DonateFAQ = dynamic( import('@components/DonateFAQ'));
+const DonationModule = dynamic( import('@components/GP/DonationModule'));
 // Import Strapi content components
 import StrapiSEO from '@components/Strapi/StrapiSEO';
 import StrapiDynamicBlocks from '@components/Strapi/StrapiDynamicContent';
