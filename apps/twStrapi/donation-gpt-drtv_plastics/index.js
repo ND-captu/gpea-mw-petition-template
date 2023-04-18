@@ -30,6 +30,7 @@ import DonateFAQ from '@components/DonateFAQ';
 import StrapiSEO from '@components/Strapi/StrapiSEO';
 import StrapiDynamicBlocks from '@components/Strapi/StrapiDynamicContent';
 import StrapiFixedButton from '@components/Strapi/StrapiFixedButton';
+import StrapiFixedButtonFull from '@components/Strapi/StrapiFixedButtonFull';
 // Import Contents
 import formContent from './form';
 // Import static
@@ -42,6 +43,20 @@ function Index({ submitted = false, strapi }) {
 	const [ref, inView] = useInView({
 		threshold: 0
 	});
+	const [FormBtnref, btnInView] = useInView({
+		threshold: 0
+	});
+
+	const [testCond, setTestCond] = useState('A');
+	useEffect(() => {
+		window.__greenpeace__ = window.__greenpeace__ || {};
+		window.__greenpeace__.onTestCondSetted = function(  ) {
+			console.log('A/B Testing condition: '+window.testCond)
+			setTestCond(window.testCond);
+		}
+		
+	},[])
+
 	const FormRef = useRef(null);
 
 	submitted = useSelector((state) => state?.status?.submitted);
@@ -170,7 +185,7 @@ function Index({ submitted = false, strapi }) {
 						</Box>
 						<Box flex={1} ref={FormRef}>
 							<FormContainer>
-								<Box ref={ref}>
+								<Box ref={ ref }>
 									{pageType?.toLowerCase() === 'donation' || submitted ? (
 										utm_source !== 'dd' && (
 										<DonationModule
@@ -191,13 +206,21 @@ function Index({ submitted = false, strapi }) {
 										<SignupForm />
 									)}
 								</Box>
+								<div ref={ FormBtnref } ></div>
 							</FormContainer>
 						</Box>
 					</Flex>
 				</OverflowWrapper>
 			</PageContainer>
 			<PetitionFooter locale={'TWChinese'} />
-			<StrapiFixedButton target={FormRef} targetInView={inView} />
+			{
+				testCond === 'A' ? (
+						<StrapiFixedButton target={FormRef} targetInView={ inView } />
+					) : (
+						<StrapiFixedButtonFull target={FormRef} targetInView={ btnInView } />
+					)
+			}
+			
 		</>
 	);
 }

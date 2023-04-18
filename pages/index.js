@@ -69,7 +69,7 @@ function Index({
 }) {
 	const router = useRouter();
 	const dispatch = useDispatch();
-
+	
 	/* Set dynamic theme parameters */
 	useEffect(() => {
 		if (router.isReady) {
