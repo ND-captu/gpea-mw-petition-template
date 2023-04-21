@@ -1,12 +1,11 @@
-
 /**
  * Deploy setting
 # Project Apps Directory: /apps/{PROJECT}
-PROJECT=twStrapi/donation-general-general
+PROJECT=twStrapi/donation-gpt_plastics
 MARKET=tw
-PROJECT_NAME=donation-general-new_reactivation
-BASEPATH=/htdocs/2023/donation/donation-general-general
-ASSETPREFIX=https://change.greenpeace.org.tw/2023/donation/donation-general-general/
+PROJECT_NAME=donation-gpt_plastics
+BASEPATH=/htdocs/2023/donation/donation-gpt_plastics
+ASSETPREFIX=https://change.greenpeace.org.tw/2023/donation/donation-gpt_plastics/
 FTP_CONFIG_NAME=ftp_tw 
 */
 import React, { useEffect, useRef, useState } from 'react';
@@ -50,10 +49,8 @@ function Index({ submitted = false, strapi }) {
 	useEffect(() => {
 		dispatch({ type: formActions.SET_FORM, data: formContent }); // set form content from form.json
 	}, [dispatch]);
-	
-	// const { FirstName } = signup;
-  
-  // get utm_source
+
+	// get utm_source
   const hiddenForm = useSelector((state) => state?.hiddenForm);
   const { utm_source } = hiddenForm?.data;
 
