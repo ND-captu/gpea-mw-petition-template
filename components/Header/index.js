@@ -29,7 +29,7 @@ const WithSubnavigation = ({ href }) => {
 		>
 			<Flex py={'12px'} align={'center'}>
 				<Container maxW={'1200px'}>
-					<Flex justify={ testCond === 'B' ? 'space-between' : 'center'}>
+					<Flex justify={ testCond === 'B' ? 'space-between' : 'center'} align={'center'}>
 						{href ? (
 							<Link href={href} isExternal="true">
 								<Image
