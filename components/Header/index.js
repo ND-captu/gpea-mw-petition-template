@@ -13,23 +13,24 @@ const WithSubnavigation = ({ href }) => {
 		}
 		
 	},[])
-	const handleScroll = (target) => {
-		if (!target) {
-			return;
-		}
-		target.current?.scrollIntoView({ behavior: 'smooth' });
+	const handleScroll = () => {
+		
+			const target = document.querySelector('[data-form]');
+		
+			target?.scrollIntoView({ behavior: 'smooth' });
 	};
 	return (
 		<Box
 			bgColor={'brand.500'}
 			// borderBottom={'1px solid var(--shades-100)'}
 			// boxShadow={'var(--shadow-1)'}
-			pos={'relative'}
+			pos={{base:((testCond === 'B' ? 'sticky' : 'relative')), md:'relative'}}
+			top={0}
 			zIndex={3}
 		>
 			<Flex py={'12px'} align={'center'}>
 				<Container maxW={'1200px'}>
-					<Flex justify={ testCond === 'B' ? 'space-between' : 'center'} align={'center'}>
+					<Flex justify={ testCond === 'B' ? 'space-between' : 'start'} align={'center'}>
 						{href ? (
 							<Link href={href} isExternal="true">
 								<Image
@@ -48,7 +49,7 @@ const WithSubnavigation = ({ href }) => {
 							/>
 						)}
 						{ testCond === 'B' && (
-							<Button {...buttonStyleProps} onClick={() => handleScroll(target)}>
+							<Button {...buttonStyleProps} onClick={() => handleScroll()}>
 								{'捐助支持'}
 							</Button>
 						)}

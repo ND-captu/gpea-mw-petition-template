@@ -40,9 +40,13 @@ function Index({ submitted = false, strapi }) {
 	const theme = useSelector((state) => state?.theme);
 	const signup = useSelector((state) => state?.signup);
 	const pageType = strapi?.page_type?.data?.attributes?.name;
+	const FormRef = useRef(null);
 	const [ref, inView] = useInView({
-		threshold: 0
+		threshold: 0,
+		initialInView: true,
+		skip: !Boolean(FormRef?.current?.offsetHeight)
 	});
+	
 	const [FormBtnref, btnInView] = useInView({
 		threshold: 0
 	});
@@ -57,7 +61,7 @@ function Index({ submitted = false, strapi }) {
 		
 	},[])
 
-	const FormRef = useRef(null);
+	
 
 	submitted = useSelector((state) => state?.status?.submitted);
 
@@ -183,8 +187,8 @@ function Index({ submitted = false, strapi }) {
 								</>
 							</ContentContainer>
 						</Box>
-						<Box flex={1} ref={FormRef}>
-							<FormContainer>
+						<Box flex={1} ref={FormRef} data-form style={{scrollMargin: (testCond === 'B' ? '80px' : '0') }}>
+							<FormContainer >
 								<Box ref={ ref }>
 									{pageType?.toLowerCase() === 'donation' || submitted ? (
 										utm_source !== 'dd' && (
@@ -206,18 +210,18 @@ function Index({ submitted = false, strapi }) {
 										<SignupForm />
 									)}
 								</Box>
-								<div ref={ FormBtnref } ></div>
+								<div ref={ FormBtnref }></div>
 							</FormContainer>
 						</Box>
 					</Flex>
 				</OverflowWrapper>
 			</PageContainer>
 			<PetitionFooter locale={'TWChinese'} />
-			{
+			{ 
 				testCond === 'A' ? (
 						<StrapiFixedButton target={FormRef} targetInView={ inView } />
 					) : (
-						<StrapiFixedButtonFull target={FormRef} targetInView={ btnInView } />
+						<StrapiFixedButtonFull target={FormRef} targetInView={ testCond === 'C' ? btnInView : inView } />
 					)
 			}
 			

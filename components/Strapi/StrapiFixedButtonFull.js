@@ -44,10 +44,10 @@ const styleProps = {
 
 const buttonStyleProps = {
 	width: '100%',
-	borderRadius: '0',
+	borderRadius: '4px 4px 0 0 ',
 	fontSize: '20px',
-	fontWeight: '500',
-	minHeight: '56px',
+	fontWeight: '400',
+	minHeight: '48px',
 	py: '12px',
 	px: '4px',
 	color: 'white',
