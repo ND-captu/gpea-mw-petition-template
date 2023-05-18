@@ -1,3 +1,13 @@
+/**
+ * Deploy setting
+# Project Apps Directory: /apps/{PROJECT}
+PROJECT=hkStrapi/donation-general
+MARKET=hk
+PROJECT_NAME=donation-general
+BASEPATH=/web/api.greenpeace.org.hk/htdocs/page/donation-general
+ASSETPREFIX=https://api.greenpeace.org.hk/page/donation-general/
+FTP_CONFIG_NAME=api_hk_cloud 
+*/
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as formActions from 'store/actions/action-types/form-actions';
@@ -33,6 +43,10 @@ function Index({ submitted = false, strapi }) {
 		threshold: 0
 	});
 	const FormRef = useRef(null);
+
+	// get utm_source
+  const hiddenForm = useSelector((state) => state?.hiddenForm);
+  const { AsiaPayResult } = hiddenForm?.data;
 
 	submitted = useSelector((state) => state?.status?.submitted);
 
@@ -140,7 +154,7 @@ function Index({ submitted = false, strapi }) {
 						<Box flex={1} ref={FormRef}>
 							<FormContainer>
 								<Box ref={ref}>
-									{pageType?.toLowerCase() === 'donation' || submitted ? (
+									{pageType?.toLowerCase() === 'donation' || submitted || AsiaPayResult ? (
 										<DonationModule
 											market={
 												strapi?.market?.data?.attributes?.market === 'Hong Kong'
@@ -158,6 +172,7 @@ function Index({ submitted = false, strapi }) {
 												''
 											}
 											env={strapi?.donationModuleEnv}
+											customUrl={'https://api.greenpeace.org.hk/app/donation-module-hkmp/main.js'}
 										/>
 									) : (
 										<SignupForm />

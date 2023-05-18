@@ -3,7 +3,8 @@ import Wrapper from '@containers/wrapper';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import Script from 'next/script';
-import TagManager from 'react-gtm-module';
+
+// import TagManager from 'react-gtm-module';
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -23,6 +24,11 @@ import {
 
 /* Determine the returned project index by env variable */
 const DynamicComponent = dynamic(() => import(`apps/${process.env.project}`));
+/*
+Switch SEO modules based on whether the path name contains "Strapi". 
+Move it here to ensure that meta info is generated in index_mc.html.
+*/
+const DynamicSeoComp = dynamic(() => import(process.env.project.indexOf('Strapi') >= 0 ? '@components/Strapi/StrapiSEO' : `apps/${process.env.project}/SEO`));
 
 /* Get env variables */
 const envProjectName = process.env.projectName;
@@ -166,7 +172,6 @@ function Index({
 
 	/* Pre-fill signup data */
 	useEffect(() => {
-		
 		setTheme(themeData);
 
 		let FormObj = {};
@@ -201,6 +206,7 @@ function Index({
 		}
 	}, [themeData]);
 
+	const [prepared, setPrepared] = useState(false);
 	useEffect(() => {
 		window.addEventListener(
 			'message',
@@ -231,14 +237,16 @@ function Index({
 		/* GTM is only applicable for production env */
 
 		initTagManager(market)
-	});
-
+		setPrepared(true);
+	},[]);
+	
 	return (
 		<>
+			<DynamicSeoComp strapi={strapi} />
 			{/* <Script strategy="lazyOnload">
             {`console.log("================ GTM ================");`}
 			</Script> */}
-			{gtmId != '' && (
+			{(gtmId != '') && (
 				<Script strategy="beforeInteractive">
 					{`(function(w,d,s,l,i){w[l]=w[l]||[];
 							w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js', });
@@ -248,7 +256,8 @@ function Index({
 						})(window,document,'script','dataLayer',"${gtmId}");`}
 				</Script>
 			)}
-			<DynamicComponent strapi={strapi} themeData={themeData} />
+			
+			{prepared && <DynamicComponent strapi={strapi} themeData={themeData} />}
 		</>
 		
 	);
